@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Home from './pages/home/home';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {
+  Switch,
+  Route,
+  Redirect,
+  Link
+} from "react-router-dom";
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Switch>
+          <Route path='/home' component={Home}></Route>
+
+          <Redirect exact from='/' to='/home'></Redirect>
+          <Route path='/*' render={() =><h2>404</h2>
+          }></Route>
+        </Switch>
+      </div>
+    );
+  }
 }
-
 export default App;
+
