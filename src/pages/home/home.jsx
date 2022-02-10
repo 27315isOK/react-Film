@@ -58,8 +58,7 @@ class Home extends Component {
             this.props.history.replace('/home/cinema')
         } else if (key === '3') {
             this.props.history.replace('/home/message')
-        } 
-        else {
+        } else {
             this.props.history.replace('/home/mine')
         }
 
@@ -67,15 +66,15 @@ class Home extends Component {
 
     render() {
         return (
-            <div className='tabbar'>
+            <div >
                 <Switch>
-                    <Route path='/movie' component={Movie}></Route>
-                    <Route path='/message' component={Message}></Route>
-                    <Route path='/mine' component={Mine}></Route>
-                    <Route path='/cinema' component={Cinema}></Route>
+                    <Route path='/home/movie' component={Movie}></Route>
+                    <Route path='/home/message' component={Message}></Route>
+                    <Route path='/home/mine' component={Mine}></Route>
+                    <Route path='/home/cinema' component={Cinema}></Route>
                     <Redirect exact from='/home' to='/home/movie'></Redirect>
                 </Switch>
-                <TabBar activeKey={this.state.keynum}  onChange={this.tabchange}>
+                <TabBar activeKey={this.state.keynum}  onChange={this.tabchange} className='tabbar'>
                     <TabBar.Item key={1} icon={MovieOutline} title='电影' />
                     <TabBar.Item key={2} icon={<VideoOutline />} title='影院' />
                     <TabBar.Item key={3} icon={ContentOutline} title='资讯' />

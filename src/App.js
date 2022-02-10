@@ -6,7 +6,6 @@ import {
   Switch,
   Route,
   Redirect,
-  Link
 } from "react-router-dom";
 
 class App extends Component {
