@@ -66,7 +66,8 @@ class Home extends Component {
 
     render() {
         return (
-            <div >
+            <div>
+                
                 <Switch>
                     <Route path='/home/movie' component={Movie}></Route>
                     <Route path='/home/message' component={Message}></Route>
@@ -74,6 +75,7 @@ class Home extends Component {
                     <Route path='/home/cinema' component={Cinema}></Route>
                     <Redirect exact from='/home' to='/home/movie'></Redirect>
                 </Switch>
+                <div style={{height:'50px'}}></div>
                 <TabBar activeKey={this.state.keynum}  onChange={this.tabchange} className='tabbar'>
                     <TabBar.Item key={1} icon={MovieOutline} title='电影' />
                     <TabBar.Item key={2} icon={<VideoOutline />} title='影院' />
