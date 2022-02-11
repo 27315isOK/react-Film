@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { List } from 'antd-mobile'
+import { List, InfiniteScroll } from 'antd-mobile'
 import styled from 'styled-components';
 import { Button } from 'antd-mobile'
 import axios from '../../utils/axios'
+import time from '../../utils/timeformat'
 
 const Item = styled.div`
     display:flex;
@@ -38,6 +39,10 @@ const Item = styled.div`
             font-size:13px;
             margin-top:4px;
             color:#797d82;
+            width:210px;
+            overflow:hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
             .score{
                 color:#ffb232;
                 font-size:14px;
@@ -57,13 +62,25 @@ const Item = styled.div`
 class Hot extends Component {
 
     state = {
-        list: []
+        list: [],
+        hasMore: true,
+        pageNum: 1
     }
 
-    componentDidMount() {
-        axios.get('soon').then((res) => {
+    loadMore = () => {
+        axios.get('soon',{params:{pageNum:this.state.pageNum}}).then((res) => {
+            var maxPageNum = Math.ceil(res.data.data.total/10)
+            if(this.state.pageNum<maxPageNum){
+                this.setState({
+                    pageNum:this.state.pageNum+1
+                })
+            }else{
+                this.setState({
+                    hasMore:false
+                })
+            }
             this.setState({
-                list: res.data.data.films
+                list: [...this.state.list,...res.data.data.films]
             })
         })
     }
@@ -88,8 +105,8 @@ class Hot extends Component {
                                                         })
                                                     }
                                                 </div>
-                                                <div className='option'>上映日期:{item.premiereAt}</div>
-                                                
+                                                <div className='option'>上映日期:{time.toWMD(item.premiereAt)}</div>
+
                                             </div>
                                         </div>
                                         <div className='right'>
@@ -100,7 +117,9 @@ class Hot extends Component {
                             })
                         }
                     </List.Item>
+                    <InfiniteScroll loadMore={this.loadMore} hasMore={this.state.hasMore} threshold='50'></InfiniteScroll>
                 </List>
+
             </div>
         );
     }

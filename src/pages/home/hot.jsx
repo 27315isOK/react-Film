@@ -21,6 +21,7 @@ const Item = styled.div`
             font-size:16px;
             height:22px;
             line-height:22px;
+            white-space:nowrap;
             .see{
                 display:inline-block;
                 font-size:16px;
@@ -38,6 +39,10 @@ const Item = styled.div`
             font-size:13px;
             margin-top:4px;
             color:#797d82;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 210px;
             .score{
                 color:#ffb232;
                 font-size:14px;
@@ -60,18 +65,26 @@ class Hot extends Component {
 
     state = {
         list: [],
-        hasMore: true
+        hasMore: true,
+        pageNum:1
     }
 
     loadMore = () => {
-        console.log('a')
-    }
+        axios.get('hot',{params:{pageNum:this.state.pageNum}}).then((res) => {
+            
+            var maxPageNum =Math.ceil(res.data.data.total/10)
+            if(this.state.pageNum<maxPageNum){
+                this.setState({
+                    pageNum:this.state.pageNum+1
+                })
+            }else{
+                this.setState({
+                    hasMore:false
+                })
+            }
 
-    componentDidMount() {
-        axios.get('hot').then((res) => {
-            console.log(res);
             this.setState({
-                list: res.data.data.films
+                list: [...this.state.list,...res.data.data.films]
             })
         })
     }
@@ -110,7 +123,7 @@ class Hot extends Component {
                         }
                     </List.Item>
 
-                    <InfiniteScroll loadMore={this.loadMore} hasMore={this.state.hasMore} threshold='50'/>
+                    <InfiniteScroll loadMore={this.loadMore} hasMore={this.state.hasMore} threshold='50' />
 
                 </List>
             </div>
