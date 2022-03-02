@@ -69,6 +69,8 @@ class Hot extends Component {
         pageNum:1
     }
 
+
+
     loadMore = () => {
         axios.get('hot',{params:{pageNum:this.state.pageNum}}).then((res) => {
             

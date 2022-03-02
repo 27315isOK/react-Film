@@ -67,6 +67,8 @@ class Hot extends Component {
         pageNum: 1
     }
 
+    
+
     loadMore = () => {
         axios.get('soon',{params:{pageNum:this.state.pageNum}}).then((res) => {
             var maxPageNum = Math.ceil(res.data.data.total/10)
